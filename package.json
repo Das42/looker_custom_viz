@@ -1,0 +1,44 @@
+{
+  "name": "looker_custom_viz",
+  "version": "1.0.0",
+  "description": "This repository was built to explore creating custom visualizations within Looker.",
+  "main": "webpack.config.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "build": "webpack --mode production"   
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Das42/looker_custom_viz.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^1.0.0",
+    "node-sass": "^4.9.2",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.21.0",
+    "ts-loader": "^4.4.2",
+    "typescript": "^3.5.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "dependencies": {
+    "d3": "^5.16.0",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "react": "^16.8.3",
+    "react-dom": "^16.7.0",
+    "react-responsive-carousel": "^3.1.51",
+    "typescript": "^3.3.3333"
+  },
+  "bugs": {
+    "url": "https://github.com/Das42/looker_custom_viz/issues"
+  },
+  "homepage": "https://github.com/Das42/looker_custom_viz#readme"
+}

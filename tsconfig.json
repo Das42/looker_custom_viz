@@ -1,0 +1,17 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+      "module": "esnext",
+      "target": "es6",
+      "sourceMap": true,
+      "jsx": "react",
+      "moduleResolution": "node"
+
+    },
+    "exclude": [
+      "node_modules"
+    ],
+    "rootDir": [
+        "src/"
+    ]
+  }
