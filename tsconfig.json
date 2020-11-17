@@ -1,18 +1,16 @@
-{
-    "compileOnSave": true,
-    "compilerOptions": {
-      "module": "esnext",
-      "target": "es5",
-      "sourceMap": true,
-      "jsx": "react",
-      "moduleResolution": "node" ,
-      "outDir": "dist",     
-      "lib": [ "dom", "es6", "es2015.collection" ],         
-    },
-    "exclude": [
-      "node_modules"
-    ],
-    "rootDir": [
-        "src/"
-    ]
-  }
+  {
+  "compilerOptions": {
+    "module": "es6",
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "outDir": "lib",
+    "lib": [ "dom", "es6", "es2015.collection" ],
+    "target": "es5"
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "rootDir": [
+    "src/"
+  ]
+}

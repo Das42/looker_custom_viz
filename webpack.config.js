@@ -1,51 +1,46 @@
-let path = require('path');
+var path = require('path')
 
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
-let webpackConfig = {
-    entry: {
-        myCustomViz: './src/visualizations/my-custom-viz.ts',
-        singleValueViz: './src/visualizations/single_value_viz.ts'
-    },
-    output: {
-        filename: '[name].js',
-        path: path.join(__dirname, 'dist'),
-        library: '[name]',
-        libraryTarget: 'umd'
-    },
-    resolve: {
-        extensions: ['.ts', '.js', '.scss', '.css']
-    },
-    plugins: [
-        new UglifyJSPlugin()
-    ],
-    module: {
-        rules: [
-            { test: /\.js$/, loader: "babel-loader" },
-            { test: /\.ts$/, loader: 'ts-loader' },
-            { test: /\.css$/, loader: [ 'to-string-loader', 'css-loader' ] },
-            { test: /\.scss$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader',
-                ]
-            }
-        ]
-    },
-    performance: {
-        hints: false,
-        maxEntrypointSize: 512000,
-        maxAssetSize: 512000      
-    }, 
-    devServer: {
-        contentBase: false,
-        compress: true,
-        port: 3443,
-        https: true
-    },
-    devtool: 'eval',
-    watch: true
-};
+var webpackConfig = {
+  mode: 'production',
+  entry: {
+    singleValueViz: './src/visualizations/single_value_viz.js',
+    hello_world: './src/visualizations/hello_world.js',
+    hello_world_react: './src/visualizations/hello_world_react.js',
+  },
+  output: {
+    filename: "[name].js",
+    path: path.join(__dirname, "dist"),
+    library: "[name]",
+    libraryTarget: "umd"
+  },
+  resolve: {
+    extensions: [".ts", ".js"]
+  },
+  plugins: [
+    new UglifyJSPlugin()
+  ],
+  module: {
+    rules: [
+      { test: /\.js$/, loader: "babel-loader" },
+      { test: /\.ts$/, loader: "ts-loader" },
+      { test: /\.css$/, loader: [ 'to-string-loader', 'css-loader' ] }
+    ]
+  },
+  stats: {
+    warningsFilter: /export.*liquidfillgauge.*was not found/
+  },
+  devServer: {
+      https: true
+  },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  },
+  devtool: 'eval',
+  watch: true
+}
 
-module.exports = webpackConfig;
+module.exports = webpackConfig
