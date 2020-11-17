@@ -1,16 +1,4 @@
-import { Looker, VisualizationDefinition, LookerChartUtils } from '../common/types';
-import { handleErrors } from '../common/utils';
-
-declare var looker: Looker;
-declare var chartUtils: LookerChartUtils
-
-interface SingleValueHack extends VisualizationDefinition {
-    elementRef?: HTMLDivElement,
-}
-
-const vis: SingleValueHack = {
-    id: 'someId', // id/label not required, but nice for testing and keeping manifests in sync
-    label: 'Some Label',
+looker.plugins.visualizations.add({
     options: {
         html_template: {
             type: "string",
@@ -23,11 +11,6 @@ const vis: SingleValueHack = {
 
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         this.clearErrors();
-        
-        console.log( 'data', data );
-        console.log( 'element', element );
-        console.log( 'config', config );
-        console.log( 'queryResponse', queryResponse );
 
         const firstRow = data[0];
         const qFields = queryResponse.fields;
@@ -40,11 +23,11 @@ const vis: SingleValueHack = {
             })
         }
 
-        const firstCell = firstRow[qFields.dimension_like.length > 0 ? qFields.dimension[0].name : qFields.measure[0].name][0];
-        
+        const firstCell = firstRow[qFields.dimension_like.length > 0 ? qFields.dimension_like[0].name : qFields.measure_like[0].name];
+
         const formatValue = (x) => (isNaN(parseFloat(x))) ? String(x).replace(/['"]+/g, '') : parseFloat(x).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-        const htmlForCell = formatValue(chartUtils.Utils.filterableValueForCell(firstCell));
+        const htmlForCell = formatValue(LookerCharts.Utils.filterableValueForCell(firstCell));
         const htmlTemplate = config && config.html_template || this.options.html_template.default;
 
         const htmlFormatted = htmlTemplate.replace(/{{.*}}/g, htmlForCell);
@@ -53,4 +36,4 @@ const vis: SingleValueHack = {
 
         doneRendering();
     }
-};
+});
