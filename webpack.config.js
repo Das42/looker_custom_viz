@@ -4,7 +4,8 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 let webpackConfig = {
     entry: {
-        myCustomViz: './src/visualizations/my-custom-viz.ts'
+        myCustomViz: './src/visualizations/my-custom-viz.ts',
+        singleValueViz: './src/visualizations/single_value_viz.ts'
     },
     output: {
         filename: '[name].js',
@@ -32,6 +33,11 @@ let webpackConfig = {
             }
         ]
     },
+    performance: {
+        hints: false,
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000      
+    }, 
     devServer: {
         contentBase: false,
         compress: true,

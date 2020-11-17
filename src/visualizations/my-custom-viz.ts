@@ -1,5 +1,6 @@
 import { Looker, VisualizationDefinition } from '../common/types';
 import { handleErrors } from '../common/utils';
+import './my-custom-viz.scss'
 
 declare var looker: Looker;
 
@@ -8,14 +9,14 @@ interface WhateverNameYouWantVisualization extends VisualizationDefinition {
 }
 
 const vis: WhateverNameYouWantVisualization = {
-    id: 'someId', // id/label not required, but nice for testing and keeping manifests in sync
-    label: 'Some Label',
+    id: 'some id', // id/label not required, but nice for testing and keeping manifests in sync
+    label: 'Some Name',
     options: {
         title: {
             type: 'string',
             label: 'Title',
             display: 'text',
-            default: 'Some Name'
+            default: 'Default Text'
         }
     },
     // Set up the initial state of the visualization
@@ -29,15 +30,15 @@ const vis: WhateverNameYouWantVisualization = {
         console.log( 'config', config );
         console.log( 'queryResponse', queryResponse );
         const errors = handleErrors(this, queryResponse, {
-            min_pivots: 0,
-            max_pivots: 0,
-            min_dimensions: 1,
-            max_dimensions: 1,
-            min_measures: 1,
-            max_measures: 1
+            // min_pivots: 0,
+            // max_pivots: 0,
+            // min_dimensions: 1,
+            // max_dimensions: 1,
+            // min_measures: 1,
+            // max_measures: 1
         });
         if (errors) { // errors === true means no errors
-            // TODO: Do stuff here
+            element.innerHTML = 'Hello Looker!';
         }
     }
 };
