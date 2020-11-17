@@ -2,11 +2,12 @@
     "compileOnSave": true,
     "compilerOptions": {
       "module": "esnext",
-      "target": "es6",
+      "target": "es5",
       "sourceMap": true,
       "jsx": "react",
-      "moduleResolution": "node"
-
+      "moduleResolution": "node" ,
+      "outDir": "dist",     
+      "lib": [ "dom", "es6", "es2015.collection" ],         
     },
     "exclude": [
       "node_modules"
