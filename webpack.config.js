@@ -5,7 +5,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var webpackConfig = {
   mode: 'production',
   entry: {
-    singleValueViz: './src/visualizations/single_value_viz.js',
+    singleValueViz: './src/visualizations/single_value_viz.ts',
     hello_world: './src/visualizations/hello_world.js',
     hello_world_react: './src/visualizations/hello_world_react.js',
   },
