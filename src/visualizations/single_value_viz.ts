@@ -18,8 +18,7 @@ const vis = {
     },
     title: {
       type: 'string',
-      label: 'Title',
-      default: 'Default Title'
+      label: 'Title'
     }
   },
 
@@ -27,17 +26,36 @@ const vis = {
   create: function(element, _config) {
     element.innerHTML = `
       <style>
-        .single-value-vis {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          text-align: center;
-          font-size: 12px;
-        }
+      .container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        font-size: 52px;
+      }
+
+      .title {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        font-size: 36px;
+        word-wrap: break-word;
+        font-color: grey;
+      }
       </style>
     `
-    this.svg = d3.select(element).append('svg').attr('class', 'single-value-vis')
+
+    const container = element.appendChild(document.createElement('div'))
+    const renderedValue = document.createElement('div')
+    const title = document.createElement('div')
+    title.className = 'title'
+    title.id = 'content-title'
+    container.className = 'container'
+    this._textElement = container.appendChild(renderedValue)
+    container.appendChild(title)
   },
 
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
@@ -62,20 +80,26 @@ const vis = {
     const htmlTemplate = config && config.html_template || this.options.html_template.default
 
     const htmlFormatted = htmlTemplate.replace(/{{.*}}/g, htmlForCell)
-    const container = document.createElement('div')
-    element.className = 'single-value-viz'
-    const content = document.createElement('p')
-    content.innerHTML = htmlFormatted
-    const title = document.createElement('p')
-    title.textContent = config.title || this.options.title.default
-    container.appendChild(content)
-    container.appendChild(title)
+    // const container = element.appendChild(document.createElement('div'))
 
-    this.svg.textContent = container.textContent
+    // const content = document.createElement('p')
+    // content.innerHTML = htmlFormatted
 
-    this.svg = d3.select(element).append('svg').attr('class', 'single-value-vis')
+    this._textElement.innerHTML = htmlFormatted
 
-    element.innerHTML = container.innerHTML
+    // const title = element.appendChild(document.createElement('p'))
+    element.querySelector('#content-title').textContent = config.title
+    // container.appendChild(content)
+    // container.appendChild(title)
+    // container.appendChild(title)
+    // container.appendChild(containerStyle)
+    // container.className = 'container'
+
+    // this.svg.textContent = container.textContent
+
+    // this.svg = d3.select(element).append('svg').attr('class', 'single-value-vis')
+
+    // element.innerHTML = container.innerHTML
 
     doneRendering()
   }

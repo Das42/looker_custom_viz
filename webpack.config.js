@@ -32,7 +32,8 @@ var webpackConfig = {
     warningsFilter: /export.*liquidfillgauge.*was not found/
   },
   devServer: {
-      https: true
+      https: true, 
+      port: 8081
   },
   performance: {
     hints: false,
