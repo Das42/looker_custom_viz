@@ -5,7 +5,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var webpackConfig = {
   mode: 'production',
   entry: {
-    singleValueViz: './src/visualizations/single_value_viz.ts',
+    singleValueViz: './src/visualizations/single_value_viz.tsx',
     hello_world: './src/visualizations/hello_world.js',
     hello_world_react: './src/visualizations/hello_world_react.js',
   },
@@ -16,7 +16,7 @@ var webpackConfig = {
     libraryTarget: "umd"
   },
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".ts", ".js", ".tsx"]
   },
   plugins: [
     new UglifyJSPlugin()
@@ -24,7 +24,7 @@ var webpackConfig = {
   module: {
     rules: [
       { test: /\.js$/, loader: "babel-loader" },
-      { test: /\.ts$/, loader: "ts-loader" },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       { test: /\.css$/, loader: [ 'to-string-loader', 'css-loader' ] }
     ]
   },
