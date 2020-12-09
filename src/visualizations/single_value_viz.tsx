@@ -2,6 +2,7 @@
 import { formatType } from '../common/utils'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { SingleValueVis } from './single_value_react'
 
 import {
   Looker,
@@ -14,32 +15,6 @@ declare var LookerCharts: LookerChartUtils
 type Formatter = ((s: any) => string)
 const defaultFormatter: Formatter = (x) => x.toString()
 
-const createTitle = () => {
-  const title = document.createElement('div')
-  title.className = 'title'
-  title.id = 'content-title'
-  return title
-}
-
-class SingleValueVis extends React.Component {
-  constructor (props) {
-    super(props)
-    // this.createTitle = this.createTitle.bind(this)
-  }
-
-  // createTitle() {
-  //   const title = document.createElement('div')
-  //   title.className = 'title'
-  //   title.id = 'content-title'
-  //   return title
-  // }
-
-  // render our data
-  render() {
-    return <div>React with TypeScript</div>
-  }
-}
-
 const vis = {
   options: {
     html_template: {
@@ -49,16 +24,17 @@ const vis = {
     },
     title: {
       type: 'string',
-      label: 'Title'
+      label: 'Title',
+      default: 'My DEFAULT title'
     },
     show_title: {
       type: 'boolean',
       label: 'Show Title',
-      default: true
+      default: false
     }
   },
 
-  create: function(element, _config) {
+  create: function(element, config) {
     element.innerHTML = `
       <style>
       .container {
@@ -83,14 +59,15 @@ const vis = {
     `
 
     const container = element.appendChild(document.createElement('div'))
-    const renderedValue = document.createElement('div')
     container.className = 'container'
     container.id = 'vis-container'
-    this._textElement = container.appendChild(renderedValue)
 
     this.chart = ReactDOM.render(
-      <SingleValueVis />,
-      this._textElement
+      <SingleValueVis
+        title={config.title}
+        show_title={config.show_title}
+        html_formatted={false}/>,
+      document.getElementById('vis-container')
     )
   },
 
@@ -113,20 +90,22 @@ const vis = {
     const htmlForCell = formatValue(LookerCharts.Utils.filterableValueForCell(firstCell))
     const htmlTemplate = config && config.html_template || this.options.html_template.default
 
-    const htmlFormatted = htmlTemplate.replace(/{{.*}}/g, htmlForCell)
-
-    if (config.show_title === false && element.querySelector('#content-title')) {
-      element.querySelector('#content-title').remove()
-    } else if (config.show_title === true && !element.querySelector('#content-title')) {
-      element.querySelector('#vis-container').appendChild(createTitle())
-      element.querySelector('#content-title').textContent = config.title
+    function formatHTML() {
+      return { __html: htmlTemplate.replace(/{{.*}}/g, htmlForCell) }
     }
 
-    this._textElement.innerHTML = htmlFormatted
+    function componentHTML() {
+      return <div dangerouslySetInnerHTML={formatHTML()} />
+    }
+
+    const htmlFormatted = componentHTML()
 
     this.chart = ReactDOM.render(
-      <SingleValueVis />,
-      this._textElement
+      <SingleValueVis
+        title={config.title}
+        show_title={config.show_title}
+        html_formatted={componentHTML()}/>,
+      document.getElementById('vis-container')
     )
 
     doneRendering()
