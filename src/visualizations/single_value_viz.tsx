@@ -2,7 +2,7 @@
 import { formatType } from '../common/utils'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { SingleValueVis } from './single_value_react'
+import { SingleValueVis } from './single_value_components'
 
 import {
   Looker,
@@ -97,8 +97,6 @@ const vis = {
     function componentHTML() {
       return <div dangerouslySetInnerHTML={formatHTML()} />
     }
-
-    const htmlFormatted = componentHTML()
 
     this.chart = ReactDOM.render(
       <SingleValueVis
