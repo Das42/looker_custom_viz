@@ -89,7 +89,6 @@ const vis = {
     const formatValue = formatType(qFields.dimension_like.length > 0 ? qFields.dimension_like[0].value_format : qFields.measure_like[0].value_format) || defaultFormatter
     const htmlForCell = formatValue(LookerCharts.Utils.filterableValueForCell(firstCell))
     const htmlTemplate = config && config.html_template || this.options.html_template.default
-
     function formatHTML() {
       return { __html: htmlTemplate.replace(/{{.*}}/g, htmlForCell) }
     }

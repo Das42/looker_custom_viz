@@ -7,7 +7,6 @@ export class SingleValueVis extends React.Component {
   
     // render our data
     render() {
-      console.log(this.props.html_formatted)
       return <div>
         {this.props.html_formatted}
         {this.props.show_title && <Title title={this.props.title}/>}
@@ -15,12 +14,12 @@ export class SingleValueVis extends React.Component {
     }
   }
  // 
-export class Title extends React.Component {
+class Title extends React.Component {
     constructor (props) {
-        super(props)
+      super(props)
     }
     
     render() {
-        return <div class='title' id='content-title'> {this.props.title} </div>
+      return <div className='title' id='content-title'> {this.props.title} </div>
     }
 }
