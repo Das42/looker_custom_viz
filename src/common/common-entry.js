@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 function formatType(valueFormat) {
     if (typeof valueFormat != "string") {
       return function (x) {return x}
