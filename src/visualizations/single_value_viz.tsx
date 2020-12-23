@@ -62,7 +62,8 @@ const vis = {
         text-align: center;
         font-size: 52px;
         word-wrap: break-word;
-        margin-bottom: '75px';
+        padding: 5px;
+        margin: 5px;
       }     
 
       .title {
@@ -73,6 +74,8 @@ const vis = {
         text-align: center;
         font-size: 36px;
         word-wrap: break-word;
+        padding: 5px; 
+        margin: 20px;
       }
 
       .comp {
@@ -83,7 +86,6 @@ const vis = {
         text-align: center;
         font-size: 36px;
         word-wrap: break-word;
-        margin-bottom: '10px';
       }
       </style>
     `
