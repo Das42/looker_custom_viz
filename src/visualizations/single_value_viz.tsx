@@ -18,18 +18,27 @@ const defaultFormatter: Formatter = (x) => x.toString()
 const vis = {
   options: {
     html_template: {
+      section: ' Style',
       type: 'string',
       label: 'HTML Template',
       default: `<p>{{ rendered_value }}</p>`
     },
     title: {
+      section: ' Style',
       type: 'string',
       label: 'Title',
       default: 'My DEFAULT title'
     },
     show_title: {
+      section: ' Style',
       type: 'boolean',
       label: 'Show Title',
+      default: false
+    },
+    show_comparison: {
+      section: 'Comparison',
+      type: 'boolean',
+      label: 'Show Comparison',
       default: false
     }
   },
@@ -43,8 +52,18 @@ const vis = {
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        font-size: 52px;
       }
+
+      .single-value {
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        font-size: 52px;
+        word-wrap: break-word;
+        margin-bottom: '75px';
+      }     
 
       .title {
         height: 25%;
@@ -54,6 +73,17 @@ const vis = {
         text-align: center;
         font-size: 36px;
         word-wrap: break-word;
+      }
+
+      .comp {
+        height: 25%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        font-size: 36px;
+        word-wrap: break-word;
+        margin-bottom: '10px';
       }
       </style>
     `
@@ -74,8 +104,54 @@ const vis = {
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     this.clearErrors()
 
-    const firstRow = data[0]
     const qFields = queryResponse.fields
+
+    function formatCell(row, column) {
+      try {
+
+        const row_detail = data[row]
+        const return_field = qFields.dimension_like.length > 0 ? qFields.dimension_like[column] : qFields.measure_like[column]
+        const cell_name = row_detail[return_field.name]
+        const cell_value = LookerCharts.Utils.filterableValueForCell(cell_name)
+
+        // create default format for measures or table calcs with no value_format set
+        let cell_format = ""
+        if (return_field.category === "measure" && qFields.measure_like[column].value_format === null 
+            || return_field.is_table_calculation && return_field.value_format === null) {
+          const measure_value = parseFloat(cell_value)
+          if(Math.round(measure_value) !== measure_value) {
+            cell_format = "#,##0.00"
+          } else {
+            cell_format = "#,##0"
+           }
+        } else {
+           cell_format = return_field.value_format
+        }
+
+        const formatValue = formatType(cell_format) || defaultFormatter
+        console.log(cell_value)
+        return formatValue(cell_value).replace(/^"(.*)"$/, '$1')
+        }
+      catch (e) {
+        return null
+        }
+    }
+
+    const comparison = formatCell(0,1) ? formatCell(0,1) : formatCell(1,0)
+
+    function getComparison() {
+      let i = 0
+      // console.log(i)
+      // return formatCell(0,1) ? formatCell(0,1) : formatCell(1,0)
+      // if (formatCell(0,1)) {
+      //   return formatCell(1,2)
+      // } else if (formatCell(2,1).length > 0) {
+      //   return formatCell(2,1)
+      // } else return this.addError({
+      //   title: `No fields available for comp.`,
+      //   message: `At least one dimension, measure or table calculation needs to be visible.`
+      // })
+    }
 
     if (qFields.dimension_like.length === 0 &&
             qFields.measure_like.length === 0) {
@@ -85,12 +161,11 @@ const vis = {
       })
     }
 
-    const firstCell = firstRow[qFields.dimension_like.length > 0 ? qFields.dimension_like[0].name : qFields.measure_like[0].name]
-    const formatValue = formatType(qFields.dimension_like.length > 0 ? qFields.dimension_like[0].value_format : qFields.measure_like[0].value_format) || defaultFormatter
-    const htmlForCell = formatValue(LookerCharts.Utils.filterableValueForCell(firstCell))
+    const firstCell = formatCell(0, 0)
     const htmlTemplate = config && config.html_template || this.options.html_template.default
+
     function formatHTML() {
-      return { __html: htmlTemplate.replace(/{{.*}}/g, htmlForCell) }
+      return { __html: htmlTemplate.replace(/{{.*}}/g, firstCell) }
     }
 
     function componentHTML() {
@@ -101,7 +176,9 @@ const vis = {
       <SingleValueVis
         title={config.title}
         show_title={config.show_title}
-        html_formatted={componentHTML()}/>,
+        show_comparison={config.show_comparison}
+        html_formatted={componentHTML()}
+        comparison={comparison}/>,
       document.getElementById('vis-container')
     )
 
