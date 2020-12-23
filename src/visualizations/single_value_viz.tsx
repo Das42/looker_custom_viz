@@ -31,6 +31,10 @@ const vis = {
       type: 'boolean',
       label: 'Show Title',
       default: false
+    },
+    background_color: {
+      type: 'string',
+      label: 'Background Color'
     }
   },
 
@@ -66,6 +70,7 @@ const vis = {
       <SingleValueVis
         title={config.title}
         show_title={config.show_title}
+        background_color={config.background_color}
         html_formatted={false}/>,
       document.getElementById('vis-container')
     )
@@ -101,6 +106,7 @@ const vis = {
       <SingleValueVis
         title={config.title}
         show_title={config.show_title}
+        background_color={config.background_color}
         html_formatted={componentHTML()}/>,
       document.getElementById('vis-container')
     )
