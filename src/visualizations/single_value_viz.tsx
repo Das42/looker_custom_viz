@@ -54,6 +54,10 @@ const vis = {
       label: 'Value Labels',
       values: [{'Show as Value': 'show_value'}, {'Show as Change': 'show_change'}],
       default: 'show_change'
+     }, 
+    background_color: {
+      type: 'string',
+      label: 'Background Color'
     }
   },
 
@@ -95,6 +99,7 @@ const vis = {
       <SingleValueVis
         title={config.title}
         show_title={config.show_title}
+        background_color={config.background_color}
         html_formatted={false}/>,
       document.getElementById('vis-container')
     )
@@ -196,8 +201,8 @@ const vis = {
         comparison={comparison[1]}
         comparison_label={comparison[0].label}
         comparison_value_label={config.comparison_value_label}
-        />,
-        
+        background_color={config.background_color}
+        html_formatted={componentHTML()}/>,
       document.getElementById('vis-container')
     )
 
