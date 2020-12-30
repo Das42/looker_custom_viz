@@ -7,7 +7,7 @@ export class SingleValueVis extends React.Component {
   
     // render our data
     render() {
-      return <div>
+      return <div style={{backgroundColor: this.props.background_color}}>
         {this.props.html_formatted}
         {this.props.show_title && <Title title={this.props.title}/>}
       </div>
