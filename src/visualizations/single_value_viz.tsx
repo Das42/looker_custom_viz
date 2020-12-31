@@ -109,7 +109,7 @@ const vis = {
     const container = element.appendChild(document.createElement('div'))
     container.className = 'container'
     container.id = 'vis-container'
-    element.style
+
     this.chart = ReactDOM.render(
       <SingleValueVis
         title={config.title}
@@ -204,10 +204,6 @@ const vis = {
     
     const firstCellFormatted = formatCell(0, 0, 'sv')
     const htmlTemplate = config && config.html_template || this.options.html_template.default
-
-    function hello() {
-      return console.log("hello!")
-    }
 
     const comparison = getComparison()
 
