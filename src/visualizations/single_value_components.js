@@ -7,16 +7,27 @@ export class SingleValueVis extends React.Component {
   
     // render our data
     render() {
-      return <div style={{backgroundColor: this.props.background_color}}>
-        {<SingleValue html_formatted={this.props.html_formatted}
-        {this.props.show_title && <Title title={this.props.title}/>}
-        {this.props.show_comparison && 
-          <Comparison 
-            comparison={this.props.comparison}
-            show_comparison_label={this.props.show_comparison_label}
-            comparison_label={this.props.comparison_label}
-            comparison_value_label={this.props.comparison_value_label}
-          />}
+      return <div>
+            {
+              <SingleValue 
+                html_formatted={this.props.html_formatted}/>
+            }
+            {
+              this.props.show_title && 
+              <Title
+                title={this.props.title}
+                title_opacity={this.props.title_opacity}
+              />
+            }
+            {
+              this.props.show_comparison && 
+              <Comparison 
+              comparison={this.props.comparison}
+              show_comparison_label={this.props.show_comparison_label}
+              comparison_label={this.props.comparison_label}
+              comparison_value_label={this.props.comparison_value_label}
+              comparison_opacity={this.props.comparison_opacity}/>
+            }
       </div>
     }
   }
@@ -36,7 +47,12 @@ class Title extends React.Component {
     }
     
     render() {
-      return <div className='title' id='content-title'> {this.props.title} </div>
+      return <div 
+              className='title' 
+              id='content-title'
+              style={{opacity: this.props.title_opacity}}>
+              {this.props.title} 
+              </div>
     }
 }
 
@@ -58,7 +74,7 @@ class Comparison extends React.Component {
   }
 
   render() {
-    return <div className='comp' id='comparison'> 
+    return <div className='comp' id='comparison' style={{opacity: this.props.comparison_opacity}}> 
       {
         this.props.show_comparison_label && this.props.comparison_value_label === 'show_value' ?
           <div className='comp'> 
@@ -66,7 +82,7 @@ class Comparison extends React.Component {
           </div>
         :
         this.props.comparison_value_label === 'show_change' ?
-            <span>
+            <span className='comp'>
               {this.comparisonChangeIndicator()} 
               {this.props.show_comparison_label && this.props.comparison_label}
             </span>

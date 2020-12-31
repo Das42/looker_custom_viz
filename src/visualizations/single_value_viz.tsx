@@ -35,6 +35,12 @@ const vis = {
       label: 'Show Title',
       default: false
     },
+    title_opacity: {
+      section: ' Style',
+      label: 'Title Opacity',
+      type: 'string',
+      default: 0.75         
+    },
     show_comparison: {
       section: 'Comparison',
       type: 'boolean',
@@ -56,8 +62,17 @@ const vis = {
       default: 'show_change'
      }, 
     background_color: {
+      section: ' Style',
+      type: 'array',
+      display: 'color',
+      label: 'Background Color',
+      default: '#fff'
+    },
+    comparison_opacity: {
+      section: 'Comparison',  
+      label: 'Opacity',
       type: 'string',
-      label: 'Background Color'
+      default: 0.85
     }
   },
 
@@ -94,7 +109,7 @@ const vis = {
     const container = element.appendChild(document.createElement('div'))
     container.className = 'container'
     container.id = 'vis-container'
-
+    element.style
     this.chart = ReactDOM.render(
       <SingleValueVis
         title={config.title}
@@ -108,6 +123,7 @@ const vis = {
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     this.clearErrors()
 
+    const visContainer =  document.getElementById('vis-container')
     const qFields = queryResponse.fields
 
     function getRow(row) {
@@ -189,21 +205,27 @@ const vis = {
     const firstCellFormatted = formatCell(0, 0, 'sv')
     const htmlTemplate = config && config.html_template || this.options.html_template.default
 
+    function hello() {
+      return console.log("hello!")
+    }
+
     const comparison = getComparison()
+
+    visContainer.style.backgroundColor = config.background_color
 
     this.chart = ReactDOM.render(
       <SingleValueVis
         title={config.title}
         show_title={config.show_title}
+        title_opacity={config.title_opacity}
         show_comparison={config.show_comparison}
         show_comparison_label={config.show_comparison_label}
         html_formatted={componentHTML()}
         comparison={comparison[1]}
         comparison_label={comparison[0].label}
         comparison_value_label={config.comparison_value_label}
-        background_color={config.background_color}
-        html_formatted={componentHTML()}/>,
-      document.getElementById('vis-container')
+        comparison_opacity={config.comparison_opacity}/>,
+      visContainer
     )
 
     doneRendering()
