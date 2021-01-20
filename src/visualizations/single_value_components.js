@@ -9,11 +9,20 @@ export class SingleValueVis extends React.Component {
     render() {
       return <div>
             {
+              this.props.show_title && 
+              this.props.title_placement == "top" &&
+              <Title
+                title={this.props.title}
+                title_opacity={this.props.title_opacity}
+              />
+            }
+            {
               <SingleValue 
                 html_formatted={this.props.html_formatted}/>
             }
             {
               this.props.show_title && 
+              this.props.title_placement == "bot" &&
               <Title
                 title={this.props.title}
                 title_opacity={this.props.title_opacity}

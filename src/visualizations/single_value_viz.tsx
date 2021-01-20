@@ -8,6 +8,7 @@ import {
   Looker,
   LookerChartUtils
 } from '../common/types'
+import { noConflict } from 'jquery'
 
 declare var looker: Looker
 declare var LookerCharts: LookerChartUtils
@@ -73,6 +74,15 @@ const vis = {
       label: 'Opacity',
       type: 'string',
       default: 0.85
+    },
+    title_placement: {
+      section: ' Style',
+      label: 'Title Placement',
+      display: 'select',
+      type: 'string',
+      values: [{"Top": "top"},
+      {"Bottom": "bot"}],
+      default: "top"
     }
   },
 
@@ -115,7 +125,8 @@ const vis = {
         title={config.title}
         show_title={config.show_title}
         background_color={config.background_color}
-        html_formatted={false}/>,
+        html_formatted={false}
+        title_placement={config.title_placement}/>,
       document.getElementById('vis-container')
     )
   },
@@ -217,10 +228,12 @@ const vis = {
         show_comparison={config.show_comparison}
         show_comparison_label={config.show_comparison_label}
         html_formatted={componentHTML()}
+        title_placement={config.title_placement}
         comparison={comparison[1]}
         comparison_label={comparison[0].label}
         comparison_value_label={config.comparison_value_label}
-        comparison_opacity={config.comparison_opacity}/>,
+        comparison_opacity={config.comparison_opacity}
+        />,
       visContainer
     )
 
