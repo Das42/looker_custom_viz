@@ -8,10 +8,12 @@ import {
   Looker,
   LookerChartUtils
 } from '../common/types'
-import { noConflict } from 'jquery'
+
 
 declare var looker: Looker
 declare var LookerCharts: LookerChartUtils
+
+console.log(LookerCharts.Utils.openUrl)
 
 type Formatter = ((s: any) => string)
 const defaultFormatter: Formatter = (x) => x.toString()
@@ -28,7 +30,7 @@ const vis = {
       section: ' Style',
       type: 'string',
       label: 'Title',
-      default: 'my default title'
+      default: `<p></p>`
     },
     show_title: {
       section: ' Style',
@@ -69,6 +71,13 @@ const vis = {
       label: 'Background Color',
       default: '#fff'
     },
+    text_color: {
+      section: ' Style',
+      type: 'array',
+      display: 'color',
+      label: 'Text Color',
+      default: '#000'
+    },   
     comparison_opacity: {
       section: 'Comparison',  
       label: 'Opacity',
@@ -124,7 +133,6 @@ const vis = {
       <SingleValueVis
         title={config.title}
         show_title={config.show_title}
-        background_color={config.background_color}
         html_formatted={false}
         title_placement={config.title_placement}/>,
       document.getElementById('vis-container')
@@ -230,6 +238,7 @@ const vis = {
     const comparison = getComparison()
 
     visContainer.style.backgroundColor = config.background_color
+    visContainer.style.color = config.text_color
 
     this.chart = ReactDOM.render(
       <SingleValueVis
