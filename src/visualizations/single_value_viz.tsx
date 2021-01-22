@@ -28,7 +28,7 @@ const vis = {
       section: ' Style',
       type: 'string',
       label: 'Title',
-      default: 'My DEFAULT title'
+      default: 'my default title'
     },
     show_title: {
       section: ' Style',
@@ -192,8 +192,16 @@ const vis = {
       return { __html: htmlTemplate.replace(/{{.*}}/g, firstCellFormatted) }
     }
 
+    function formatTitle() {
+       return { __html: titleTemplate.replace(/{{.*}}/g, newTitle) }
+    }
+
     function componentHTML() {
       return <div dangerouslySetInnerHTML={formatHTML()} />
+    }
+
+    function componentTitle() {
+      return <div dangerouslySetInnerHTML={formatTitle()} />
     }
 
     function getComparison() {
@@ -215,6 +223,9 @@ const vis = {
     
     const firstCellFormatted = formatCell(0, 0, 'sv')
     const htmlTemplate = config && config.html_template || this.options.html_template.default
+    const newTitle = config.title
+    const titleTemplate = config && config.title || this.options.title.default
+    
 
     const comparison = getComparison()
 
@@ -222,7 +233,7 @@ const vis = {
 
     this.chart = ReactDOM.render(
       <SingleValueVis
-        title={config.title}
+        title={componentTitle()}
         show_title={config.show_title}
         title_opacity={config.title_opacity}
         show_comparison={config.show_comparison}
