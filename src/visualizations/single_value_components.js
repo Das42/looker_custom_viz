@@ -3,6 +3,11 @@ import React from 'react'
 export class SingleValueVis extends React.Component {
     constructor (props) {
       super(props)
+      this.handleClick = this.handleClick.bind(this)
+    }
+
+    handleClick() {
+      LookerCharts.Utils.openDrillMenu(this.props.getCellDrills)
     }
   
     // render our data
@@ -17,8 +22,11 @@ export class SingleValueVis extends React.Component {
               />
             }
             {
+            <p onClick={this.handleClick}>
               <SingleValue 
-                html_formatted={this.props.html_formatted}/>
+                html_formatted={this.props.html_formatted} 
+              />
+            </p>
             }
             {
               this.props.show_title && 
