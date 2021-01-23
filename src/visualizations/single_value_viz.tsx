@@ -13,8 +13,6 @@ import {
 declare var looker: Looker
 declare var LookerCharts: LookerChartUtils
 
-console.log(LookerCharts.Utils.openUrl)
-
 type Formatter = ((s: any) => string)
 const defaultFormatter: Formatter = (x) => x.toString()
 
