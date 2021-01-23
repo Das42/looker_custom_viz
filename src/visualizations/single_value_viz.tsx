@@ -8,7 +8,7 @@ import {
   Looker,
   LookerChartUtils
 } from '../common/types'
-import { noConflict } from 'jquery'
+
 
 declare var looker: Looker
 declare var LookerCharts: LookerChartUtils
@@ -164,7 +164,9 @@ const vis = {
         const cell_name = getCellName(row, column, object)
         const column_detail = getColumn(column, object)
         const cell_value = getCellValue(cell_name)
-
+        if (cell_name.links) {
+           const drill = cell_name.links[0].url
+        }
         // create default format for measures or table calcs with no value_format set
         let cell_format = ""
         if ((column_detail.category === "measure"  || column_detail.is_table_calculation ) 
@@ -178,7 +180,6 @@ const vis = {
         } else {
            cell_format = column_detail.value_format
         }
-
         const formatValue = formatType(cell_format) || defaultFormatter
 
         return formatValue(cell_value).replace(/^"(.*)"$/, '$1')
@@ -194,6 +195,15 @@ const vis = {
 
     function formatTitle() {
        return { __html: titleTemplate.replace(/{{.*}}/g, newTitle) }
+    }
+
+    function getCellDrills(row, column, object) {
+      const drill_cell = getCellName(row, column, object)
+      if (drill_cell.links) {
+        return {links: drill_cell.links,  event: event}
+     } else {
+       return  null
+     }
     }
 
     function componentHTML() {
@@ -225,8 +235,6 @@ const vis = {
     const htmlTemplate = config && config.html_template || this.options.html_template.default
     const newTitle = config.title
     const titleTemplate = config && config.title || this.options.title.default
-    
-
     const comparison = getComparison()
 
     visContainer.style.backgroundColor = config.background_color
@@ -234,6 +242,7 @@ const vis = {
     this.chart = ReactDOM.render(
       <SingleValueVis
         title={componentTitle()}
+        getCellDrills = {getCellDrills(0,0, 'sv')}
         show_title={config.show_title}
         title_opacity={config.title_opacity}
         show_comparison={config.show_comparison}
@@ -244,7 +253,8 @@ const vis = {
         comparison_label={comparison[0].label}
         comparison_value_label={config.comparison_value_label}
         comparison_opacity={config.comparison_opacity}
-        />,
+        />
+        ,
       visContainer
     )
 
