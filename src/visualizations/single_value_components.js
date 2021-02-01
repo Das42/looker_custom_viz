@@ -43,7 +43,8 @@ export class SingleValueVis extends React.Component {
               show_comparison_label={this.props.show_comparison_label}
               comparison_label={this.props.comparison_label}
               comparison_value_label={this.props.comparison_value_label}
-              comparison_opacity={this.props.comparison_opacity}/>
+              comparison_opacity={this.props.comparison_opacity}
+              comparison_invert_color={this.props.comparison_invert_color}/>
             }
       </div>
     }
@@ -82,11 +83,25 @@ class Comparison extends React.Component {
   comparisonChangeIndicator () {
     const comp_value = parseFloat(this.props.comparison.replace('−', '-'))
     const comp_rendered = this.props.comparison.replace(/−|-/g, '')
-    if (comp_value < 0) {
-      return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>
-    } else {
-      return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
-            
+    const comp_invert = this.props.comparison_invert_color
+    if (comp_invert == false) {
+      if (comp_value < 0 ) {
+        return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>
+      } 
+      else {
+        return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+      }
+    }
+    else if (comp_invert == true) {
+      if (comp_value < 0 ) {
+        return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+      } 
+      else {
+        return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>    
+      }
+    } 
+    else {
+      return  <span style={{color: 'gray'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
     }
   }
 
