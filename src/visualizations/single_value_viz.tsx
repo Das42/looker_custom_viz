@@ -44,24 +44,34 @@ const vis = {
     },
     show_comparison: {
       section: 'Comparison',
+      order: 1,
       type: 'boolean',
       label: 'Show Comparison',
       default: false
     },
     show_comparison_label: {
       section: 'Comparison',
+      order: 2,
       type: 'boolean',
       label: 'Show Label',
       default: true
     },
     comparison_value_label: {
       section: 'Comparison',
+      order: 3,
       type: 'string',
       display: 'select',
       label: 'Value Labels',
       values: [{'Show as Value': 'show_value'}, {'Show as Change': 'show_change'}],
       default: 'show_change'
      }, 
+     comparison_invert_color: {
+      section: 'Comparison',
+      order: 4,
+      type: 'boolean',
+      label: 'Invert Comparison Color',
+      default: false
+    },
     background_color: {
       section: ' Style',
       type: 'array',
@@ -260,6 +270,7 @@ const vis = {
         comparison_label={comparison[0].label}
         comparison_value_label={config.comparison_value_label}
         comparison_opacity={config.comparison_opacity}
+        comparison_invert_color={config.comparison_invert_color}
         />
         ,
       visContainer
