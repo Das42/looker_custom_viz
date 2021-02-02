@@ -1,7 +1,7 @@
 name: S3 Sync
 
 on:
-  push:
+  pull_request:
     branches:
     - main
 
