@@ -1,4 +1,3 @@
-// import * as d3 from 'd3'
 import { formatType } from '../common/utils'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -9,13 +8,13 @@ import {
   LookerChartUtils
 } from '../common/types'
 
-
 declare var looker: Looker
 declare var LookerCharts: LookerChartUtils
 
 type Formatter = ((s: any) => string)
 const defaultFormatter: Formatter = (x) => x.toString()
 
+// Declare user interface options 
 const vis = {
   options: {
     html_template: {
@@ -24,7 +23,7 @@ const vis = {
       label: 'HTML Template',
       default: `<p>{{ rendered_value }}</p>`
     },
-    title: {
+    vis_title: {
       section: ' Style',
       type: 'string',
       label: 'Title',
@@ -54,7 +53,7 @@ const vis = {
       order: 2,
       type: 'boolean',
       label: 'Show Label',
-      default: true
+      default: false
     },
     comparison_value_label: {
       section: 'Comparison',
@@ -103,6 +102,7 @@ const vis = {
     }
   },
 
+  // Initialize html element and set style classes 
   create: function(element, config) {
     element.innerHTML = `
       <style>
@@ -139,7 +139,7 @@ const vis = {
 
     this.chart = ReactDOM.render(
       <SingleValueVis
-        title={config.title}
+        title={config.vis_title}
         show_title={config.show_title}
         html_formatted={false}
         title_placement={config.title_placement}/>,
@@ -150,13 +150,16 @@ const vis = {
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     this.clearErrors()
 
+    // Create main html document element
     const visContainer =  document.getElementById('vis-container')
     const qFields = queryResponse.fields
 
+    // Return the entire specified row's field objects 
     function getRow(row) {
       return data[row]
     }
 
+    // Returns the field object for the column specified. Default is to return measures over dimensions. If object = comp, dimensions will take preference. 
     function getColumn(column, object) {
       if (object === 'comp') {
         return qFields.dimension_like.length > 0 ? qFields.dimension_like[column] : qFields.measure_like[column]
@@ -165,26 +168,29 @@ const vis = {
       }
     }
 
+    // Returns the object for the specified cell. If object = comp, dimensions will take preference over measures.
     function getCellName(row, column, object) {
       const row_detail = getRow(row)
       const column_detail = getColumn(column, object)
       return row_detail[column_detail.name]      
     }
 
+    // Returns the actual value of the specified cell. 
     function getCellValue(cell_name) {
       return LookerCharts.Utils.filterableValueForCell(cell_name)
     }
 
+    // Returns the html formatted cell value to be rendered 
     function formatCell(row, column, object) {
       try {
         const cell_name = getCellName(row, column, object)
         const column_detail = getColumn(column, object)
         const cell_value = getCellValue(cell_name)
-        if (cell_name.links) {
-           const drill = cell_name.links[0].url
-        }
         // create default format for measures or table calcs with no value_format set
         let cell_format = ""
+        // If the cell is a measure or table calculation and there is no value format specified in LookML, 
+        // set the format to comma seperated with either no decimals or 2 decimals depending on if the value is a whole number
+        // Otherwise, use the value format specified in LookML
         if ((column_detail.category === "measure"  || column_detail.is_table_calculation ) 
             && column_detail.value_format === null) {
           const measure_value = parseFloat(cell_value)
@@ -196,6 +202,8 @@ const vis = {
         } else {
            cell_format = column_detail.value_format
         }
+
+        // Apply the utils formatType method to format cell 
         const formatValue = formatType(cell_format) || defaultFormatter
 
         return formatValue(cell_value).replace(/^"(.*)"$/, '$1')
@@ -205,14 +213,12 @@ const vis = {
         }
     }
 
-    function formatHTML() {
-      return { __html: htmlTemplate.replace(/{{.*}}/g, firstCellFormatted) }
+    // Create an object to pass formatted HTML into react component 
+    function formatHTML(object) {
+      return { __html: htmlTemplate.replace(/{{.*}}/g, object) }
     }
 
-    function formatTitle() {
-       return { __html: titleTemplate.replace(/{{.*}}/g, newTitle) }
-    }
-
+    // Return an object with the drill link specified in the field's lookML
     function getCellDrills(row, column, object) {
       const drill_cell = getCellName(row, column, object)
       if (drill_cell.links) {
@@ -222,23 +228,39 @@ const vis = {
      }
     }
 
-    function componentHTML() {
-      return <div dangerouslySetInnerHTML={formatHTML()} />
+    // Create a div element to set the HTML formatting 
+    function componentHTML(object) {
+      return <div dangerouslySetInnerHTML={formatHTML(object)} />
     }
 
-    function componentTitle() {
-      return <div dangerouslySetInnerHTML={formatTitle()} />
-    }
-
+    // Returns an html rendered value for comparison as well as the field object 
     function getComparison() {
       const comp_field = getColumn(0, 'comp')
-      if (comp_field.category === 'dimension') {
-        return formatCell(0,0,'comp') === firstCellFormatted ? [getColumn(1, 'comp'), formatCell(0,1,'comp')] : [getColumn(0,'comp'), formatCell(0,0,'comp')]
+      const single_value = getColumn(0, 'sv')
+      if (comp_field.category === 'dimension' && single_value.category === 'dimension') {
+        if (getColumn(1,'comp') === undefined) {
+          return formatCell(0,1,'comp') === undefined ? [getColumn(0, 'comp'), formatCell(0,0,'comp')] : [getColumn(0,'comp'), formatCell(1,0,'comp')]
+        } else {
+          return formatCell(0,0,'comp') === firstCellFormatted ? [getColumn(1, 'comp'), formatCell(0,1,'comp')] : [getColumn(0,'comp'), formatCell(1,0,'comp')]
+        }
+      } if (comp_field.category === 'dimension' && single_value.category === 'measure') {
+          return [getColumn(0, 'comp'), formatCell(0,0,'comp')]
+        } else {
+          return formatCell(0,1,'comp') ? [getColumn(1, 'comp'), formatCell(0,1,'comp')] : [getColumn(0, 'comp'), formatCell(1,0,'comp')]
+        } 
+    }
+
+    // Set the comparison label to an empty string if no comparison field is available
+    function setComparisonLabel() {
+      const comp = getComparison()
+      if (comp[0] === undefined) {
+        return ''
       } else {
-        return formatCell(0,1,'comp') ? [getColumn(1, 'comp'), formatCell(0,1,'comp')] : [getColumn(0, 'comp'), formatCell(1,0,'comp')]
+        return comp[0].label
       }
     }
 
+    // Render an error message if the user has not included any fields in their query 
     if (qFields.dimension_like.length === 0 &&
             qFields.measure_like.length === 0) {
       this.addError({
@@ -247,27 +269,29 @@ const vis = {
       })
     }
     
+    // Declare constants for each visualization element 
     const firstCellFormatted = formatCell(0, 0, 'sv')
     const htmlTemplate = config && config.html_template || this.options.html_template.default
-    const newTitle = config.title
-    const titleTemplate = config && config.title || this.options.title.default
+    const newTitle = config && config.vis_title || this.options.vis_title.default
     const comparison = getComparison()
 
+    // Set container level styles for background color and text color
     visContainer.style.backgroundColor = config.background_color
     visContainer.style.color = config.text_color
 
+    // Render the visualization and pass required props to react components 
     this.chart = ReactDOM.render(
       <SingleValueVis
-        title={componentTitle()}
+        title={componentHTML(newTitle)}
         getCellDrills = {getCellDrills(0,0, 'sv')}
         show_title={config.show_title}
         title_opacity={config.title_opacity}
         show_comparison={config.show_comparison}
         show_comparison_label={config.show_comparison_label}
-        html_formatted={componentHTML()}
+        html_formatted={componentHTML(firstCellFormatted)}
         title_placement={config.title_placement}
         comparison={comparison[1]}
-        comparison_label={comparison[0].label}
+        comparison_label={setComparisonLabel()}
         comparison_value_label={config.comparison_value_label}
         comparison_opacity={config.comparison_opacity}
         comparison_invert_color={config.comparison_invert_color}

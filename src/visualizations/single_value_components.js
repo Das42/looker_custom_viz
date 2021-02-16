@@ -1,16 +1,17 @@
 import React from 'react'
 
+// Parent Component 
 export class SingleValueVis extends React.Component {
     constructor (props) {
       super(props)
-      this.handleClick = this.handleClick.bind(this)
+     this.handleClick = this.handleClick.bind(this)
     }
 
     handleClick() {
       LookerCharts.Utils.openDrillMenu(this.props.getCellDrills)
-    }
+    } 
   
-    // render our data
+    // render our data (elements for title, single value, comparison )
     render() {
       return <div>
             {
@@ -22,7 +23,11 @@ export class SingleValueVis extends React.Component {
               />
             }
             {
-            <p onClick={this.handleClick}>
+            <p
+            onClick={this.handleClick} 
+            id='SV'
+            style={this.props.getCellDrills !== null ? {cursor: 'pointer'} : {cursor: 'auto'}} 
+            >
               <SingleValue 
                 html_formatted={this.props.html_formatted} 
               />
@@ -49,7 +54,7 @@ export class SingleValueVis extends React.Component {
       </div>
     }
   }
- // 
+ // Single Value component 
 class SingleValue extends React.Component {
   constructor (props) {
     super(props)
@@ -59,6 +64,7 @@ class SingleValue extends React.Component {
     return <div className='single-value' id='single-value'> {this.props.html_formatted} </div>
   }  
 }
+// Title component 
 class Title extends React.Component {
     constructor (props) {
       super(props)
@@ -73,35 +79,41 @@ class Title extends React.Component {
               </div>
     }
 }
-
+// Comparison component 
 class Comparison extends React.Component {
   constructor (props) {
     super(props)
     this.comparisonChangeIndicator = this.comparisonChangeIndicator.bind(this)
   }
-
+  // Create an indicator to show postive and negative values 
   comparisonChangeIndicator () {
-    const comp_value = parseFloat(this.props.comparison.replace('−', '-'))
-    const comp_rendered = this.props.comparison.replace(/−|-/g, '')
-    const comp_invert = this.props.comparison_invert_color
-    if (comp_invert == false) {
-      if (comp_value < 0 ) {
-        return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>
+    try {
+      const comp_value = parseFloat(this.props.comparison.replace('−', '-'))
+      const comp_rendered = this.props.comparison.replace(/−|-/g, '')
+      // Provide option to invert colors to show negative values as green 
+      const comp_invert = this.props.comparison_invert_color
+      if (comp_invert == false) {
+        if (comp_value < 0 ) {
+          return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>
+        } 
+        else {
+          return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+        }
+      }
+      else if (comp_invert == true) {
+        if (comp_value < 0 ) {
+          return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+        } 
+        else {
+          return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>    
+        }
       } 
       else {
-        return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+        return  <span style={{color: 'gray'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
       }
-    }
-    else if (comp_invert == true) {
-      if (comp_value < 0 ) {
-        return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
-      } 
-      else {
-        return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>    
-      }
-    } 
-    else {
-      return  <span style={{color: 'gray'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+    } catch {
+      console.log('No comparison value available')
+      return <span></span>
     }
   }
 
