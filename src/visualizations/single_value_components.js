@@ -10,6 +10,15 @@ export class SingleValueVis extends React.Component {
     handleClick() {
       LookerCharts.Utils.openDrillMenu(this.props.getCellDrills)
     } 
+
+    MouseOver(){
+      event.target.style.textDecoration = "underline";
+      event.target.style.cursor = "pointer";
+    }
+
+    MouseOut(){
+      event.target.style.textDecoration = "none";
+    }
   
     // render our data (elements for title, single value, comparison )
     render() {
@@ -23,11 +32,16 @@ export class SingleValueVis extends React.Component {
               />
             }
             {
-            <p
-            onClick={this.handleClick} 
-            id='SV'
-            style={this.props.getCellDrills !== null ? {cursor: 'pointer'} : {cursor: 'auto'}} 
-            >
+            this.props.getCellDrills &&
+            <p onClick={this.handleClick} id='SV' onMouseOver={this.MouseOver} onMouseOut={this.MouseOut} >
+              <SingleValue 
+                html_formatted={this.props.html_formatted} 
+              />
+            </p>
+            }
+            {
+            this.props.getCellDrills == null &&
+            <p id='SV'>
               <SingleValue 
                 html_formatted={this.props.html_formatted} 
               />
