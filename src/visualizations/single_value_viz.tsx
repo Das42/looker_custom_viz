@@ -118,24 +118,24 @@ const vis = {
       .single-value {
         margin-top: -1em;
         word-wrap: break-word;
-        font-size: 18vw;
+        font-size: 18vh;
       }    
 
      .title-bottom {
-        margin-top: -3em;
+        margin-top: -2em;
         word-wrap: break-word;
-        font-size: 6vw;
+        font-size: 8vh;
       }      
 
       .title-top {
-        margin-bottom: 0em;
+        margin-bottom: 2em;
         word-wrap: break-word;
-        font-size: 6vw;
+        font-size: 8vh;
       } 
 
       .comp {
-        margin-top: 3em;
-        font-size: 5vw;
+        margin-top: 2em;
+        font-size: 6vh;
       }
       </style>
     `
