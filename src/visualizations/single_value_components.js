@@ -121,22 +121,22 @@ class Comparison extends React.Component {
       const comp_invert = this.props.comparison_invert_color
       if (comp_invert == false) {
         if (comp_value < 0 ) {
-          return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>
+          return  <span style={{color: 'red'}}>{'\u25BC' + ' ' + comp_rendered + ' '}</span>
         } 
         else {
-          return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+          return  <span style={{color: 'green'}}>{'\u25B2' + ' ' + comp_rendered + ' '}</span>
         }
       }
       else if (comp_invert == true) {
         if (comp_value < 0 ) {
-          return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+          return  <span style={{color: 'green'}}>{'\u25BC' + ' ' + comp_rendered + ' '}</span>
         } 
         else {
-          return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>    
+          return  <span style={{color: 'red'}}>{'\u25B2' + ' ' + comp_rendered + ' '}</span>    
         }
       } 
       else {
-        return  <span style={{color: 'gray'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+        return  <span style={{color: 'gray'}}>{'\u25BC' + ' ' + comp_rendered + ' '}</span>
       }
     } catch {
       console.log('No comparison value available')
