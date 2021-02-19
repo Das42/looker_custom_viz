@@ -113,13 +113,12 @@ const vis = {
         flex-direction: column;
         justify-content: flex-end;
         text-align: center;
-        flex: 0 0 auto;
       }
 
       .single-value {
         margin-top: -1em;
         word-wrap: break-word;
-        font-size: 16vw;
+        font-size: 18vw;
       }    
 
      .title-bottom {
@@ -136,7 +135,7 @@ const vis = {
 
       .comp {
         margin-top: 3em;
-        font-size: 4vw;
+        font-size: 5vw;
       }
       </style>
     `
