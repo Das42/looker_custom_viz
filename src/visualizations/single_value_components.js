@@ -15,31 +15,31 @@ export class SingleValueVis extends React.Component {
     render() {
       return <div>
             {
-              this.props.show_title && 
-              this.props.title_placement == "top" &&
-              <Title
-                title={this.props.title}
-                title_opacity={this.props.title_opacity}
-              />
-            }
-            {
             <p
             onClick={this.handleClick} 
             id='SV'
             style={this.props.getCellDrills !== null ? {cursor: 'pointer'} : {cursor: 'auto'}} 
             >
-              <SingleValue 
-                html_formatted={this.props.html_formatted} 
-              />
-            </p>
-            }
             {
               this.props.show_title && 
-              this.props.title_placement == "bot" &&
-              <Title
+              this.props.title_placement == "top" &&
+              <TitleTop
                 title={this.props.title}
                 title_opacity={this.props.title_opacity}
               />
+            }
+              <SingleValue 
+                html_formatted={this.props.html_formatted} 
+              />
+              {
+                this.props.show_title && 
+                this.props.title_placement == "bot" &&
+                <TitleBottom
+                  title={this.props.title}
+                  title_opacity={this.props.title_opacity}
+                />
+              }
+            </p>
             }
             {
               this.props.show_comparison && 
@@ -61,23 +61,37 @@ class SingleValue extends React.Component {
   } 
 
   render() {
-    return <div className='single-value' id='single-value'> {this.props.html_formatted} </div>
+    return <p className='single-value' id='single-value'> {this.props.html_formatted} </p>
   }  
 }
 // Title component 
-class Title extends React.Component {
+class TitleTop extends React.Component {
     constructor (props) {
       super(props)
     }
     
     render() {
-      return <div 
-              className='title' 
+      return <p
+              className='title-top' 
               id='content-title'
               style={{opacity: this.props.title_opacity}}>
               {this.props.title} 
-              </div>
+              </p>
     }
+}
+class TitleBottom extends React.Component {
+  constructor (props) {
+    super(props)
+  }
+  
+  render() {
+    return <p
+            className='title-bottom' 
+            id='content-title'
+            style={{opacity: this.props.title_opacity}}>
+            {this.props.title} 
+            </p>
+  }
 }
 // Comparison component 
 class Comparison extends React.Component {
