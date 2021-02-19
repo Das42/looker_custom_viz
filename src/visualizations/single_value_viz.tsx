@@ -106,29 +106,36 @@ const vis = {
   create: function(element, config) {
     element.innerHTML = `
       <style>
+
       .container {
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-end;
         text-align: center;
-        flex: 1 1 auto; 
-        padding: 5px;
       }
 
       .single-value {
-        font-size: 32px;
-        flex: 1 0 0;
+        margin-top: -1em;
         word-wrap: break-word;
-      }     
+        font-size: 18vw;
+      }    
 
-      .title {
+     .title-bottom {
+        margin-top: -3em;
         word-wrap: break-word;
-        margin-bottom: 20px;
-        margin-top: -20px;
-      }
+        font-size: 6vw;
+      }      
+
+      .title-top {
+        margin-bottom: 0em;
+        word-wrap: break-word;
+        font-size: 6vw;
+      } 
 
       .comp {
+        margin-top: 3em;
+        font-size: 5vw;
       }
       </style>
     `
@@ -230,7 +237,7 @@ const vis = {
 
     // Create a div element to set the HTML formatting 
     function componentHTML(object) {
-      return <div dangerouslySetInnerHTML={formatHTML(object)} />
+      return <p dangerouslySetInnerHTML={formatHTML(object)} />
     }
 
     // Returns an html rendered value for comparison as well as the field object 
@@ -276,8 +283,10 @@ const vis = {
     const comparison = getComparison()
 
     // Set container level styles for background color and text color
-    visContainer.style.backgroundColor = config.background_color
     visContainer.style.color = config.text_color
+    visContainer.style.fontFamily = "sans-serif"
+    const parent = document.getElementById('vis').parentElement
+    parent.style.backgroundColor = config.background_color
 
     // Render the visualization and pass required props to react components 
     this.chart = ReactDOM.render(
