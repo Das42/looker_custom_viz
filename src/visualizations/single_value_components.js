@@ -26,14 +26,6 @@ export class SingleValueVis extends React.Component {
     render() {
       return <div>
             {
-            <p
-            onClick={this.handleClick} 
-            id='SV'
-            style={this.props.getCellDrills !== null ? {cursor: 'pointer'} : {cursor: 'auto'}} 
-            onMouseOver={this.props.getCellDrills !== null ? this.MouseOver : '' }
-            onMouseOut={this.props.getCellDrills !== null ? this.MouseOut : '' }            
-            >
-            {
               this.props.show_title && 
               this.props.title_placement == "top" &&
               <TitleTop
@@ -41,18 +33,26 @@ export class SingleValueVis extends React.Component {
                 title_opacity={this.props.title_opacity}
               />
             }
+            {
+            <p
+            onClick={this.handleClick} 
+            id='SV'
+            style={this.props.getCellDrills !== null ? {cursor: 'pointer'} : {cursor: 'auto'}} 
+            onMouseOver={this.props.getCellDrills !== null ? this.MouseOver : '' }
+            onMouseOut={this.props.getCellDrills !== null ? this.MouseOut : '' }            
+            >
               <SingleValue 
                 html_formatted={this.props.html_formatted} 
               />
-              {
-                this.props.show_title && 
-                this.props.title_placement == "bot" &&
-                <TitleBottom
-                  title={this.props.title}
-                  title_opacity={this.props.title_opacity}
-                />
-              }
             </p>
+            }
+            {
+              this.props.show_title && 
+              this.props.title_placement == "bot" &&
+              <TitleBottom
+                title={this.props.title}
+                title_opacity={this.props.title_opacity}
+              />
             }
             {
               this.props.show_comparison && 
@@ -121,22 +121,22 @@ class Comparison extends React.Component {
       const comp_invert = this.props.comparison_invert_color
       if (comp_invert == false) {
         if (comp_value < 0 ) {
-          return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>
+          return  <span style={{color: 'red'}}>{'\u25BC' + ' ' + comp_rendered + ' '}</span>
         } 
         else {
-          return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+          return  <span style={{color: 'green'}}>{'\u25B2' + ' ' + comp_rendered + ' '}</span>
         }
       }
       else if (comp_invert == true) {
         if (comp_value < 0 ) {
-          return  <span style={{color: 'green'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+          return  <span style={{color: 'green'}}>{'\u25BC' + ' ' + comp_rendered + ' '}</span>
         } 
         else {
-          return  <span style={{color: 'red'}}>{'\u2207' + ' ' + comp_rendered + ' '}</span>    
+          return  <span style={{color: 'red'}}>{'\u25B2' + ' ' + comp_rendered + ' '}</span>    
         }
       } 
       else {
-        return  <span style={{color: 'gray'}}>{'\u2206' + ' ' + comp_rendered + ' '}</span>
+        return  <span style={{color: 'gray'}}>{'\u25BC' + ' ' + comp_rendered + ' '}</span>
       }
     } catch {
       console.log('No comparison value available')
