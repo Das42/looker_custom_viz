@@ -102,7 +102,7 @@ const vis = {
     }
   },
 
-  // Initialize html element and set style classes 
+  // Initialize html element and set style classes.
   create: function(element, config) {
     element.innerHTML = `
       <style>
