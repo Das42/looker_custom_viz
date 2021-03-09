@@ -44,7 +44,7 @@ visualization: {
 }
 ```
 
-#### Note: In order to allow Looker to access your localhost, you may need to manually approve the connection. To do so, navigate to https://localhost:8081/ , if an error page pops up, manually override the warning and navigate to the page.
+#### Note: In order to allow Looker to access your localhost during development, you may need to manually approve the connection. To do so, navigate to https://localhost:8081/ , if an error page pops up, manually override the warning and navigate to the page.
 
 
 ## Useful Documentation 
