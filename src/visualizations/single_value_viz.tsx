@@ -108,7 +108,7 @@ const vis = {
       <style>
 
       .container {
-        height: 100%;
+        height: 105%;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -124,18 +124,18 @@ const vis = {
      .title-bottom {
         margin-top: -2em;
         word-wrap: break-word;
-        font-size: 8vh;
+        font-size: 9vh;
       }      
 
       .title-top {
         margin-bottom: 2em;
         word-wrap: break-word;
-        font-size: 8vh;
+        font-size: 9vh;
       } 
 
       .comp {
         margin-top: 2em;
-        font-size: 6vh;
+        font-size: 8vh;
       }
       </style>
     `
