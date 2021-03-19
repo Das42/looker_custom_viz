@@ -55,6 +55,13 @@ const vis = {
       label: 'Show Label',
       default: false
     },
+    comparison_label: {
+      section: 'Comparison',
+      order: 4,
+      type: 'string',
+      label: 'Comparison Label',
+      default: ''
+    },
     comparison_value_label: {
       section: 'Comparison',
       order: 3,
@@ -263,9 +270,13 @@ const vis = {
     }
 
     // Set the comparison label to an empty string if no comparison field is available
+    const comparison_label_override = config.comparison_label
     function setComparisonLabel() {
       const comp = getComparison()
-      if (comp[0] === undefined) {
+      if (comparison_label_override.length > 0) {
+        return comparison_label_override
+      }
+      else if (comp[0] === undefined) {
         return ''
       } else {
         return comp[0].label
