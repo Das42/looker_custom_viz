@@ -108,21 +108,23 @@ const vis = {
       <style>
 
       .container {
-        height: 105%;
+        margin-top: 2em;
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         text-align: center;
+        padding-bottom: 8vh
       }
 
       .single-value {
-        margin-top: -1em;
+        margin-bottom: -1em;
         word-wrap: break-word;
         font-size: 18vh;
       }    
 
      .title-bottom {
-        margin-top: -2em;
+        margin-bottom: 3em;
         word-wrap: break-word;
         font-size: 9vh;
       }      
@@ -134,8 +136,11 @@ const vis = {
       } 
 
       .comp {
-        margin-top: 2em;
         font-size: 8vh;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        left: 0;
       }
       </style>
     `
