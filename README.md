@@ -16,7 +16,7 @@ Additionally, the repository is configured to post completed code for new visual
 ## How to Develop New Content 
 
 1) Create a new branch 
-2) Create a file in src/visualizations for your code (can be .ts, .js or .tsx file type) 
+2) Create a file in src/visualizations for your code (can be .ts, .js or .tsx file type). 
 3) Add a new entry point to the webpack.config.js file by adding a key/value pair to the 'entry' dictionary with the relative file path to your code.
 4) Start the dev server:  
    From the root of the project folder run: `npm run start:dev`
