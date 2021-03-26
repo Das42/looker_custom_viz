@@ -270,7 +270,7 @@ const vis = {
     }
 
     // Set the comparison label to an empty string if no comparison field is available
-    const comparison_label_override = config.comparison_label
+    const comparison_label_override = config.comparison_label || ''
     function setComparisonLabel() {
       const comp = getComparison()
       if (comparison_label_override.length > 0) {
