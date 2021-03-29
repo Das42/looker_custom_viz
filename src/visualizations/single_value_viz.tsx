@@ -116,18 +116,18 @@ const vis = {
 
       .container {
         margin-top: 2em;
-        height: 100%;
+        height: 95%;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         text-align: center;
-        padding-bottom: 8vh
+        padding-bottom: 7vh
       }
 
       .single-value {
         margin-bottom: -1em;
         word-wrap: break-word;
-        font-size: 18vh;
+        font-size: 16vh;
       }    
 
      .title-bottom {
