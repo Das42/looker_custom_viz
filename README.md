@@ -13,6 +13,7 @@ Additionally, the repository is configured to post completed code for new visual
 6) Download project dependencies:  
    From the root of the project folder in your terminal run: `npm install`
 
+
 ## How to Develop New Content 
 
 1) Create a new branch 
